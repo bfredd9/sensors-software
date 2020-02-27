@@ -257,7 +257,7 @@ static const char MEASUREMENT_NAME_INFLUX[] PROGMEM = "feinstaub";
 #define USE_BETA 0
 
 // OLED Display SSD1306 connected?
-#define HAS_DISPLAY 0
+#define HAS_DISPLAY 1
 
 // OLED Display SH1106 connected?
 #define HAS_SH1106 0

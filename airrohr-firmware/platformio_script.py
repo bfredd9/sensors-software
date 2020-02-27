@@ -1,4 +1,4 @@
-Import("env")
+#Import("env")
 import os
 import shutil
 from base64 import b64decode
@@ -24,9 +24,15 @@ def after_build(source, target, env):
     os.mkdir("./builds")
 
   configName = b64decode(ARGUMENTS.get("PIOENV"))
-  sectionName = 'env:' + configName
+  envName = "env:"
+  LongconfigName = len(configName)
+  FBAconfigName = configName.decode('utf-8')
+  print (configName)
+  print (envName)
+  print (FBAconfigName)
+  sectionName = envName + FBAconfigName
   lang = config.get(sectionName, "lang")
   target_name = lang
-  shutil.copy(target[0].path, "./builds/latest_"+target_name.lower()+".bin")
+  shutil.copy(target[0].path, "./builds/latest_"+FBAconfigName+"_"+target_name.lower()+".bin")
 
 env.AddPostAction("$BUILD_DIR/firmware.bin", after_build)
