@@ -22,6 +22,7 @@ Bool		sht3x_read
 Bool		ds18b20_read
 Bool		dnms_read
 String		dnms_correction
+String		temp_correction
 Bool		gps_read
 Bool		send2dusti
 Bool		ssl_dusti
@@ -38,6 +39,7 @@ Bool		has_sh1106
 Bool		has_flipped_display
 Bool		has_lcd1602
 Bool		has_lcd1602_27
+Bool		has_lcd2004
 Bool		has_lcd2004_27
 Bool		display_wifi_info
 Bool		display_device_info

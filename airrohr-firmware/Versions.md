@@ -1,3 +1,96 @@
+NRZ-2020-130-B5
+* Slovak translations added
+
+
+NRZ-2020-130-B4
+* Prevent password leakage in configuration dialogs
+* Change default password for webpage auth to ""
+* Ignore measurement interval settings below 5s
+* Track API sending errors for each API separately
+
+NRZ-2020-130-B3
+* Serial debug output on webpage
+* Refactoring
+
+NRZ-2020-130-B2
+* Avoid crash on WiFi network scan failure (Related to #615)
+* Only do OTA after sensor measurements are finished
+* Remove uninitialized memory read in NTP handling
+* Accept larger flash sizes also as compatible
+* Switch to a tab based configuration page
+* Skip initialization of display's when not configured
+* Delay OneWire initialization until configured
+* Fix bulgarian translation error (Fixes #622)
+* Fix hang on BME/P280 measurement read
+* Connect up to wifi channel 13 if locale is not EN (Fixes #626)
+* Use IPv6 LWIP (Related to #605)
+* Add configurable temperature correction (Fixes #607)
+
+NRZ-2020-130-B1
+* next beta version
+
+NRZ-2020-129
+online since 2020-01-07
+* same as NRZ-2019-128-B8 (+build date is shown in header)
+
+NRZ-2019-128-B8
+* Improve NTP handling and status reporting
+* Fix weird placement of "save and restart" button in config
+* Fix handling of short intervals with SDS011 (Fixes #426)
+* Erase SDK config on OTA restart (Fixes #590)
+* Add link to report an issue to web ui
+* Add self-test
+* Split less recommended sensors into a subsection of config page (Fixes #171)
+
+NRZ-2019-128-B7
+* More introspection status for OTA and sending errors
+* Resorting Language selection alphabetically
+* Disable language and beta selector when OTA is disabled
+
+NRZ-2019-128-B6
+* Fix crash on device status page in some locales
+
+NRZ-2019-128-B5
+* Avoid calling wifi off on startup which seems to cause some issues (Fixes #598)
+
+NRZ-2019-128-B4
+* perfom blocking reads on SDS011 serial responses
+* Add Device Status webpage
+* Set DHCP hostname to the firmware config wifi name (Fixes #595)
+* Polish translation fixes
+* Mark potentially destructive actions with red highlight (idea from nettigo FW)
+* Add support for LCD 2004 on I2C 0x3F address
+
+NRZ-2019-128-B3
+* Fix startup hang on wifis without NTP access (#580)
+* Update SHT3.x to 1.1.6
+
+NRZ-2019-127-1 (intermediate version)
+online since 2019-12-03
+* same as NRZ-2019-127-B2
+
+NRZ-2019-128-B2
+* Initialize MDNS after wifi to restore functionality
+
+NRZ-2019-128-B1
+* next beta version
+
+NRZ-2019-127
+online since 2019-12-02
+* same as NRZ-2019-126-B9
+
+NRZ-2019-126-B9
+* Update to Arduino Core 2.6.2 to fix WiFi stability issues
+
+NRZ-2019-126-B8
+* Updated translations
+* Collect error counters
+* Serbian localization added
+
+NRZ-2019-126-B7
+* Updated italian translations - thanks stewecar
+* Fix instabilities in SDS011 measurement decoding
+
 NRZ-2019-126-B6
 * Read SDS011 version once on startup
 * Discard power-on self-test dust sensor measurements

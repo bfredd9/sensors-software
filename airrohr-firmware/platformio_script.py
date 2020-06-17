@@ -24,6 +24,7 @@ def after_build(source, target, env):
     os.mkdir("./builds")
 
   configName = b64decode(ARGUMENTS.get("PIOENV"))
+#ifdef FBA_CHANGES
   envName = "env:"
   LongconfigName = len(configName)
   FBAconfigName = configName.decode('utf-8')
@@ -31,6 +32,9 @@ def after_build(source, target, env):
   print (envName)
   print (FBAconfigName)
   sectionName = envName + FBAconfigName
+#else
+  sectionName = 'env:' + configName.decode('utf-8')
+#endif
   lang = config.get(sectionName, "lang")
   target_name = lang
   shutil.copy(target[0].path, "./builds/latest_"+FBAconfigName+"_"+target_name.lower()+".bin")

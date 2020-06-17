@@ -45,6 +45,7 @@ enum ConfigShapeId {
 	Config_ds18b20_read,
 	Config_dnms_read,
 	Config_dnms_correction,
+	Config_temp_correction,
 	Config_gps_read,
 	Config_send2dusti,
 	Config_ssl_dusti,
@@ -61,6 +62,7 @@ enum ConfigShapeId {
 	Config_has_flipped_display,
 	Config_has_lcd1602,
 	Config_has_lcd1602_27,
+	Config_has_lcd2004,
 	Config_has_lcd2004_27,
 	Config_display_wifi_info,
 	Config_display_device_info,
@@ -105,6 +107,7 @@ const char CFG_KEY_SHT3X_READ[] PROGMEM = "sht3x_read";
 const char CFG_KEY_DS18B20_READ[] PROGMEM = "ds18b20_read";
 const char CFG_KEY_DNMS_READ[] PROGMEM = "dnms_read";
 const char CFG_KEY_DNMS_CORRECTION[] PROGMEM = "dnms_correction";
+const char CFG_KEY_TEMP_CORRECTION[] PROGMEM = "temp_correction";
 const char CFG_KEY_GPS_READ[] PROGMEM = "gps_read";
 const char CFG_KEY_SEND2DUSTI[] PROGMEM = "send2dusti";
 const char CFG_KEY_SSL_DUSTI[] PROGMEM = "ssl_dusti";
@@ -121,6 +124,7 @@ const char CFG_KEY_HAS_SH1106[] PROGMEM = "has_sh1106";
 const char CFG_KEY_HAS_FLIPPED_DISPLAY[] PROGMEM = "has_flipped_display";
 const char CFG_KEY_HAS_LCD1602[] PROGMEM = "has_lcd1602";
 const char CFG_KEY_HAS_LCD1602_27[] PROGMEM = "has_lcd1602_27";
+const char CFG_KEY_HAS_LCD2004[] PROGMEM = "has_lcd2004";
 const char CFG_KEY_HAS_LCD2004_27[] PROGMEM = "has_lcd2004_27";
 const char CFG_KEY_DISPLAY_WIFI_INFO[] PROGMEM = "display_wifi_info";
 const char CFG_KEY_DISPLAY_DEVICE_INFO[] PROGMEM = "display_device_info";
@@ -165,6 +169,7 @@ static constexpr ConfigShapeEntry configShape[] PROGMEM = {
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_DS18B20_READ), &cfg::ds18b20_read },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_DNMS_READ), &cfg::dnms_read },
 	{ Config_Type_String, sizeof(cfg::dnms_correction)-1, FPSTR(CFG_KEY_DNMS_CORRECTION), cfg::dnms_correction },
+	{ Config_Type_String, sizeof(cfg::temp_correction)-1, FPSTR(CFG_KEY_TEMP_CORRECTION), cfg::temp_correction },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_GPS_READ), &cfg::gps_read },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_SEND2DUSTI), &cfg::send2dusti },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_SSL_DUSTI), &cfg::ssl_dusti },
@@ -181,6 +186,7 @@ static constexpr ConfigShapeEntry configShape[] PROGMEM = {
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_HAS_FLIPPED_DISPLAY), &cfg::has_flipped_display },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_HAS_LCD1602), &cfg::has_lcd1602 },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_HAS_LCD1602_27), &cfg::has_lcd1602_27 },
+	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_HAS_LCD2004), &cfg::has_lcd2004 },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_HAS_LCD2004_27), &cfg::has_lcd2004_27 },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_DISPLAY_WIFI_INFO), &cfg::display_wifi_info },
 	{ Config_Type_Bool, 0, FPSTR(CFG_KEY_DISPLAY_DEVICE_INFO), &cfg::display_device_info },
