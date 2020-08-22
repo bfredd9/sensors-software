@@ -27,6 +27,7 @@ const char SENSORS_SDS011[] PROGMEM = "SDS011";
 const char SENSORS_PPD42NS[] PROGMEM = "PPD42NS";
 const char SENSORS_PMSx003[] PROGMEM = "PMSx003";
 const char SENSORS_HPM[] PROGMEM = "Honeywell PM";
+const char SENSORS_NPM[] PROGMEM = "Tera Sensor Next PM";
 const char SENSORS_SPS30[] PROGMEM = "Sensirion SPS30";
 const char SENSORS_DHT22[] PROGMEM = "DHT22";
 const char SENSORS_DS18B20[] PROGMEM = "DS18B20";
@@ -66,6 +67,7 @@ input[type=submit]:hover{background:#d44}\
 
 const char WEB_PAGE_HEADER_HEAD[] PROGMEM = "<meta name='viewport' content='width=device-width'/>\
 <link rel='stylesheet' href='" STATIC_PREFIX "?r=css'>\
+<link rel='icon' type='image/png' href='" STATIC_PREFIX "?r=logo'/>\
 </style>\
 </head><body>\
 <div class='canvas'>\
