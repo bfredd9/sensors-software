@@ -7,8 +7,8 @@
 #define OTA_BASENAME "/airrohr/esp32"
 #endif
 
-#define SSID_BASENAME "airRohr-"
-#define HOSTNAME_BASE "airRohr-"
+#define SSID_BASENAME "airRohr-FB-"
+#define HOSTNAME_BASE "airRohr-FB-"
 
 #define LEN_CFG_STRING 65
 #define LEN_CFG_PASSWORD 65

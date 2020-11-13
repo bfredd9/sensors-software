@@ -8,12 +8,11 @@
 {
     "version": "0.2.0",
     "configurations": [
-        
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "d:/MPU/work/luftdaten/sensors-software/airrohr-firmware/.pio/build/heltec_wifi_lora_32_V2/firmware.elf",
+            "executable": "d:/MPU/work/luftdaten/sensors-software/airrohr-firmware/.pio/build/ heltec_wifi_lora_32_V2/firmware.elf",
             "toolchainBinDir": "C:/Users/bard/.platformio/packages/toolchain-xtensa32/bin",
             "preLaunchTask": {
                 "type": "PlatformIO",
@@ -25,7 +24,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "d:/MPU/work/luftdaten/sensors-software/airrohr-firmware/.pio/build/heltec_wifi_lora_32_V2/firmware.elf",
+            "executable": "d:/MPU/work/luftdaten/sensors-software/airrohr-firmware/.pio/build/ heltec_wifi_lora_32_V2/firmware.elf",
             "toolchainBinDir": "C:/Users/bard/.platformio/packages/toolchain-xtensa32/bin",
             "internalConsoleOptions": "openOnSessionStart"
         }

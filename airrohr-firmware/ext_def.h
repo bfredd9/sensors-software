@@ -1,8 +1,12 @@
 // Language config
-#define CURRENT_LANG INTL_LANG
+//#define CURRENT_LANG DE
+const char CURRENT_LANG[] PROGMEM = "FR";
+//#define ESP32_WROOM_MODULE
+//#define ESP32
+//#define HAS_DISPLAY 1
 
 // Wifi config
-const char WLANSSID[] PROGMEM = "Freifunk-disabled";
+const char WLANSSID[] PROGMEM = "Freifunk-deactivé";
 const char WLANPWD[] PROGMEM = "";
 
 // BasicAuth config
@@ -85,7 +89,7 @@ static const char NTP_SERVER_1[] PROGMEM = "0.pool.ntp.org";
 static const char NTP_SERVER_2[] PROGMEM = "1.pool.ntp.org";
 
 // define own API
-static const char HOST_CUSTOM[] PROGMEM = "192.168.234.1";
+static const char HOST_CUSTOM[] PROGMEM = "192.168.55.220";
 static const char URL_CUSTOM[] PROGMEM = "/data.php";
 #define PORT_CUSTOM 80
 #define USER_CUSTOM ""
@@ -163,11 +167,27 @@ static const char MEASUREMENT_NAME_INFLUX[] PROGMEM = "feinstaub";
 //#define RFM69_INT D4
 #endif
 
+//  === pin assignments for heltec_wifi_kit_32 board ===================================
+#if defined(WIFI_Kit_32) // voir heltec.h
+#define ONEWIRE_PIN D32
+//FBA changes : SCL_OLED: D15 <- I2C_SCL, SDA_OLED: D4 <- I2C_SDA,  RST_OLED: D16
+//PM sur les pins 2(TX) et 23 disponibles
+#define I2C_PIN_SCL SCL_OLED //D22
+#define I2C_PIN_SDA SDA_OLED //D17_WROOM_ONLY
+#define PM_SERIAL_RX D23
+#define PM_SERIAL_TX D2_STRAPPING
+#define GPS_SERIAL_RX D13_JTAG_TCK
+#define GPS_SERIAL_TX D0_STRAPPING
+#define PPD_PIN_PM1 GPS_SERIAL_TX
+#define PPD_PIN_PM2 GPS_SERIAL_RX
+#endif
+
 //  === pin assignments for heltec_wifi_lora_32_V2 board ===================================
 #if defined(WIFI_LoRa_32_V2)
 #define ONEWIRE_PIN D32
-#define I2C_PIN_SCL D22
-#define I2C_PIN_SDA D17_WROOM_ONLY
+//FBA changes : SCL_OLED: D15 <- I2C_SCL, SDA_OLED: D4 <- I2C_SDA,  RST_OLED: D16
+#define I2C_PIN_SCL SCL_OLED //D22
+#define I2C_PIN_SDA SDA_OLED //D17_WROOM_ONLY
 #define PM_SERIAL_RX D23
 #define PM_SERIAL_TX D2_STRAPPING
 #define GPS_SERIAL_RX D13_JTAG_TCK

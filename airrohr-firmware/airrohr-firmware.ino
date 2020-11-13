@@ -98,7 +98,11 @@ String SOFTWARE_VERSION(SOFTWARE_VERSION_STR);
 #include "./oledfont.h"				// avoids including the default Arial font, needs to be included before SSD1306.h
 #include <SSD1306.h>
 #include <SH1106.h>
+
+//#if defined(ESP8266)
 #include <LiquidCrystal_I2C.h>
+//#endif
+
 #include <ArduinoJson.h>
 #include <DNSServer.h>
 #include "./DHT.h"
@@ -172,6 +176,7 @@ namespace cfg {
 	bool send2madavi = SEND2MADAVI;
 	bool send2sensemap = SEND2SENSEMAP;
 	bool send2fsapp = SEND2FSAPP;
+	bool ssl_fsapp = SSL_FSAPP;
 	bool send2aircms = SEND2AIRCMS;
 	bool send2custom = SEND2CUSTOM;
 	bool send2influx = SEND2INFLUX;
@@ -213,7 +218,7 @@ namespace cfg {
 	char pwd_custom[LEN_CFG_PASSWORD] = PWD_CUSTOM;
 
 	void initNonTrivials(const char* id) {
-		strcpy(cfg::current_lang, CURRENT_LANG);
+		strcpy_P(current_lang, CURRENT_LANG);
 		strcpy_P(www_username, WWW_USERNAME);
 		strcpy_P(www_password, WWW_PASSWORD);
 		strcpy_P(wlanssid, WLANSSID);
@@ -3757,11 +3762,92 @@ static unsigned long sendDataToOptionalApis(const String &data) {
 	return sum_send_time;
 }
 
+/* ----------------------------------------------------------------------------------
+/*******************************************
+* bloc neopixel
+*******************************************/
+ #include <Adafruit_NeoPixel.h>
+#ifdef __AVR__  // apparemment inutile
+#include <avr/power.h> // Required for 16 MHz Adafruit Trinket
+#endif
+
+/* variables neopixel */
+double monPM10;
+#define NEOPIXEL_PIN D17_WROOM_ONLY //GPIO is for ADC2_4/TPUCH4
+#define NUMPIXELS 60
+#define DELAYVAL 2000 // Time (in milliseconds) to pause between pixels
+int pm_max = 200; //valeur de PM pour allumage de toute la bande de LED
+int  mesur;
+int rouge[NUMPIXELS];
+int vert[NUMPIXELS];
+int bleu[NUMPIXELS];
+int satu = 255;
+Adafruit_NeoPixel pixels(NUMPIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
+
+/* fonctions neopixel */
+void lumiere(double valeur)  // bp bp bp 17 juin 19  10 oct
+{
+
+  if (valeur > NUMPIXELS) mesur = 255;
+  else mesur = valeur;
+  //Serial.print("valeur pm10 : ");Serial.print(valeur);Serial.print("  mesur :");Serial.println(mesur);
+  vert[0] = 255; // je ne sais pas pourquoi la valeur est 0 sinon
+  // c'est peut-être parce que avant la première mesure la valeur par défqult de mesur est -1
+
+  for (int i = 0; i < NUMPIXELS; i++) // For each pixel...
+  {
+    if (i < mesur)
+    { pixels.setPixelColor(i, pixels.Color(rouge[i], vert[i], bleu[i]));  //les n=mesur) premières leds sont allumées
+      // les autres sont éteintes (
+      // Serial.print("i,r,v,b     ");Serial.print(i);Serial.print("   ");Serial.print(rouge[i]);Serial.print("   ");Serial.print(vert[i]);Serial.print("   ");Serial.println(bleu[i]);
+    }
+    else pixels.setPixelColor(i, 0, 0, 0);
+  }
+  pixels.setBrightness(mesur);
+  pixels.show();   // Send the updated pixel colors to the hardware.
+}
+
+void lumiere_setup() {
+//neopixel
+  pinMode(NEOPIXEL_PIN, OUTPUT); // bp pin neopixel
+  for (int i = 0; i < NUMPIXELS; i++) // For each pixel...
+  {
+    if (i <= NUMPIXELS / 4) {
+      vert[i] = satu;
+      rouge[i] = satu * i * 4 / NUMPIXELS;
+      bleu[i] = 0;
+    }
+    else if (i <= NUMPIXELS / 2) {
+      rouge[i] = satu;
+      vert[i] = satu - satu * i * 2 / NUMPIXELS;
+      bleu[i] = 0;
+    }
+    else  {
+      rouge[i] = satu, vert[i] = 0, bleu[i] = 0;
+    }
+  }
+  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+  pixels.setBrightness(20); // 1/3 brightness
+  // check lighting
+for (int i = 0; i < NUMPIXELS; i++) // For each pixel...
+  {
+     pixels.setPixelColor(i, pixels.Color(i%NUMPIXELS, (NUMPIXELS-i)%NUMPIXELS, 0));  //les leds sont allumées
+  }
+    pixels.show();   // Send the updated pixel colors to the hardware.
+ //
+}
+/* ----------------------------------------------------------------------------------
+
 /*****************************************************************
  * The Setup                                                     *
  *****************************************************************/
 
 void setup(void) {
+	pinMode(LED,OUTPUT);
+  	digitalWrite(LED,HIGH);
+	delay(1000);
+  	digitalWrite(LED,LOW);
+
 	Debug.begin(9600);		// Output to Serial at 9600 baud
 #if defined(ESP8266)
 	serialSDS.begin(9600, SWSERIAL_8N1, PM_SERIAL_RX, PM_SERIAL_TX);
@@ -3772,7 +3858,7 @@ void setup(void) {
 #endif
 	serialSDS.setTimeout((12 * 9 * 1000) / 9600);
 
-#if defined(WIFI_LoRa_32_V2)
+#if defined(WIFI_LoRa_32_V2) || defined(heltec_wifi_kit_32)
 	// reset the OLED display, e.g. of the heltec_wifi_lora_32 board
 	pinMode(RST_OLED, OUTPUT);
 	digitalWrite(RST_OLED, LOW);
@@ -3829,7 +3915,14 @@ void setup(void) {
 	logEnabledDisplays();
 
 	delay(50);
-
+//-----------------------------------------------------------------------------------------------
+ // setup affichage neopixel
+    lumiere_setup();
+	delay(50);
+	monPM10 = 10.0; //200: full range
+	// appel affichage neopixel
+    lumiere(monPM10);
+//------------------------------------------------------------------------------------------------	  
 	starttime = millis();									// store the start time
 	last_update_attempt = time_point_device_start_ms = starttime;
 	last_display_millis = starttime_SDS = starttime;
@@ -3935,7 +4028,10 @@ void loop(void) {
 		display_values();
 		last_display_millis = act_milli;
 	}
-
+//-----------------------------------------------------------------------------------------------
+// appel affichage neopixel
+    lumiere(monPM10); //(data.pm100_standard);
+//------------------------------------------------------------------------------------------------
 	server.handleClient();
 	yield();
 
